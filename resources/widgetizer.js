@@ -1,7 +1,7 @@
 import './widgetizer.css';
 
 ( function ( $ ) {
-	$( '.ticktor-field-type-sortable' ).each( function ( index, element ) {
+	$( '.widgetizer-field-type-sortable' ).each( function ( index, element ) {
 		const $this = $( this );
 
 		$this.sortableContainer = $this.find( 'ul.sortable' ).first();
@@ -44,14 +44,14 @@ import './widgetizer.css';
 	} );
 
 	// Handle field ref links.
-	const refLinks = document.querySelectorAll( '.ticktor-field-refs a' );
+	const refLinks = document.querySelectorAll( '.widgetizer-field-refs a' );
 
 	if ( refLinks ) {
 		refLinks.forEach( ( link ) => {
 			link.addEventListener( 'click', function ( event ) {
 				event.preventDefault();
 
-				const fieldContainer = link.closest( '.ticktor-field' );
+				const fieldContainer = link.closest( '.widgetizer-field' );
 
 				if ( fieldContainer ) {
 					const inputField = fieldContainer.querySelector( 'input[type="number"]' );

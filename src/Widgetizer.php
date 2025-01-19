@@ -2,7 +2,7 @@
 /**
  * Class Widgetizer
  *
- * @package Ticktor
+ * @package Widgetizer
  */
 
 declare(strict_types=1);
@@ -161,7 +161,7 @@ abstract class Widgetizer {
 		}
 		?>
 
-		<div class="ticktor-widget-settings-wrap">
+		<div class="widgetizer-widget-settings-wrap">
 
 			<?php
 			foreach ( $this->fields as $field ) {
@@ -170,7 +170,7 @@ abstract class Widgetizer {
 			?>
 			<input type="hidden" name="action" value="<?php echo esc_attr( 'save_' . $this->widget_id ); ?>" />
 
-		</div><!-- .ticktor-widget-settings-wrap -->
+		</div><!-- .widgetizer-widget-settings-wrap -->
 
 		<?php
 	}
@@ -222,13 +222,13 @@ abstract class Widgetizer {
 
 		$html = sprintf( '<input %s />', $attributes );
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<?php $this->render_field_refs( $args ); ?>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -263,9 +263,9 @@ abstract class Widgetizer {
 
 		$value = $this->get_setting( $field_key );
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 
 				<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>">
 
@@ -278,7 +278,7 @@ abstract class Widgetizer {
 
 				</select>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -300,9 +300,9 @@ abstract class Widgetizer {
 
 		$value = $this->get_setting( $field_key );
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 
 				<div class="buttonset">
 					<?php
@@ -326,7 +326,7 @@ abstract class Widgetizer {
 
 				</select>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -348,9 +348,9 @@ abstract class Widgetizer {
 
 		$value = $this->get_setting( $field_key );
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 
 				<?php
 				$layout_class = 'layout-vertical';
@@ -384,7 +384,7 @@ abstract class Widgetizer {
 
 				<?php echo '</ul>'; ?>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -429,12 +429,12 @@ abstract class Widgetizer {
 			$html .= '</ul>';
 		}
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -481,12 +481,12 @@ abstract class Widgetizer {
 			$html .= '</ul>';
 		}
 		?>
-		<div class="ticktor-field ticktor-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
 			<p>
-				<label class="ticktor-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</p>
-		</div><!-- .ticktor-field -->
+		</div><!-- .widgetizer-field -->
 		<?php
 	}
 
@@ -605,7 +605,7 @@ abstract class Widgetizer {
 			return;
 		}
 
-		echo '<div class="ticktor-field-refs">';
+		echo '<div class="widgetizer-field-refs">';
 		echo '<ul>';
 
 		foreach ( $args['refs'] as $val => $label ) {
