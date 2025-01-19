@@ -19,8 +19,13 @@ if ( ! defined( 'WIDGETIZER_URL' ) ) {
 
 
 if ( ! function_exists( 'widgetizer_init' ) ) {
-	function widgetizer_init() {
 
+	/**
+	 * Load widgetizer assets.
+	 *
+	 * @since 1.0.0
+	 */
+	function widgetizer_init() {
 		add_action(
 			'admin_enqueue_scripts',
 			function () {

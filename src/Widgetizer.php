@@ -86,11 +86,8 @@ abstract class Widgetizer {
 	 * Render widget settings form.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @param string $widget_id The widget ID.
-	 * @param array  $options Option details.
 	 */
-	public function settings( $widget_id, $options ) {
+	public function settings() {
 		$this->update_form();
 		$this->render_form();
 	}
@@ -147,11 +144,11 @@ abstract class Widgetizer {
 	 * @return bool True if valid, otherwise false.
 	 */
 	protected function is_valid_save_action() {
-		return ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
+		return ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
 	}
 
 	/**
-	 * Renders form.
+	 * Renders widget settings form.
 	 *
 	 * @since 1.0.0
 	 */
@@ -159,20 +156,16 @@ abstract class Widgetizer {
 		if ( empty( $this->fields ) ) {
 			return;
 		}
-		?>
 
-		<div class="widgetizer-widget-settings-wrap">
+		echo '<div class="widgetizer-widget-settings-wrap">';
 
-			<?php
-			foreach ( $this->fields as $field ) {
-				$this->render_form_field( $field );
-			}
-			?>
-			<input type="hidden" name="action" value="<?php echo esc_attr( 'save_' . $this->widget_id ); ?>" />
+		foreach ( $this->fields as $field ) {
+			$this->render_form_field( $field );
+		}
 
-		</div><!-- .widgetizer-widget-settings-wrap -->
+		echo '<input type="hidden" name="action" value="' . esc_attr( 'save_' . $this->widget_id ) . '" />';
 
-		<?php
+		echo '</div><!-- .widgetizer-widget-settings-wrap -->';
 	}
 
 	/**
@@ -195,6 +188,53 @@ abstract class Widgetizer {
 		if ( is_callable( [ $this, 'callback_' . $callback_name ] ) ) {
 			call_user_func_array( [ $this, 'callback_' . $callback_name ], [ $field ] );
 		}
+	}
+
+	/**
+	 * Render field label.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	private function render_field_label( array $args ) {
+		echo '<label class="widgetizer-field-label">' . esc_html( $args['title'] ) . '</label>';
+	}
+
+	/**
+	 * Render field open markup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	private function render_field_open( array $args ) {
+		$wf_data = [
+			'submitter' => ( isset( $args['submitter'] ) && true === $args['submitter'] ) ? true : false,
+		];
+
+		$field_attrs = [
+			'class'       => [
+				'widgetizer-field',
+				'widgetizer-field-type-' . $args['type'],
+			],
+			'data-wfdata' => wp_json_encode( $wf_data ),
+		];
+
+		echo '<div ' . $this->render_attr( $field_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<p style="border:1px red solid;">';
+	}
+
+	/**
+	 * Render field close markup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	private function render_field_close( array $args ) {
+		echo '</p>';
+		echo '</div><!-- .widgetizer-field.widgetizer-field-type-' . esc_attr( $args['type'] ) . ' -->';
 	}
 
 	/**
@@ -221,15 +261,14 @@ abstract class Widgetizer {
 		$attributes = $this->render_attr( $attr, false );
 
 		$html = sprintf( '<input %s />', $attributes );
-		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
-				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				<?php $this->render_field_refs( $args ); ?>
-			</p>
-		</div><!-- .widgetizer-field -->
-		<?php
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$this->render_field_refs( $args );
+
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -262,24 +301,22 @@ abstract class Widgetizer {
 		}
 
 		$value = $this->get_setting( $field_key );
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
 		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+			<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>">
 
-				<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>">
+			<?php foreach ( $args['choices'] as $choice_key => $choice_label ) : ?>
 
-				<?php foreach ( $args['choices'] as $choice_key => $choice_label ) : ?>
+				<option value="<?php echo esc_attr( $choice_key ); ?>" <?php selected( $value, $choice_key ); ?>><?php echo esc_html( $choice_label ); ?></option>
 
-					<option value="<?php echo esc_attr( $choice_key ); ?>" <?php selected( $value, $choice_key ); ?>><?php echo esc_html( $choice_label ); ?></option>
+			<?php endforeach; ?>
 
-				<?php endforeach; ?>
-
-
-				</select>
-			</p>
-		</div><!-- .widgetizer-field -->
+			</select>
 		<?php
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -300,46 +337,31 @@ abstract class Widgetizer {
 
 		$value = $this->get_setting( $field_key );
 
-		$wf_data = [
-			'submitter' => ( isset( $args['submitter'] ) && true === $args['submitter'] ) ? true : false,
-		];
+		$this->render_field_open( $args );
 
-		$field_attrs = [
-			'class'       => [
-				'widgetizer-field',
-				'widgetizer-field-type-' . $args['type'],
-			],
-			'data-wfdata' => wp_json_encode( $wf_data ),
-		];
+		$this->render_field_label( $args );
 		?>
-		<div <?php $this->render_attr( $field_attrs ); ?>>
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
+			<div class="buttonset">
+				<?php
+				foreach ( $args['choices'] as $key => $label ) {
+					$clean_id = $field_key . '---' . $key;
 
-				<div class="buttonset">
-					<?php
-					foreach ( $args['choices'] as $key => $label ) {
-						$clean_id = $field_key . '---' . $key;
+					$attr = [
+						'type'  => 'radio',
+						'name'  => $this->get_field_name( $field_key ),
+						'id'    => $clean_id,
+						'value' => $key,
+						'class' => [ 'switch-input' ],
+					];
 
-						$attr = [
-							'type'  => 'radio',
-							'name'  => $this->get_field_name( $field_key ),
-							'id'    => $clean_id,
-							'value' => $key,
-							'class' => [ 'switch-input' ],
-						];
+					$attributes = $this->render_attr( $attr, false );
 
-						$attributes = $this->render_attr( $attr, false );
-
-						printf( '<input %s %s ><label class="switch-label" for="%s">%s</label></input>', $attributes, checked( $value, $key, false ), $clean_id, $label ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					}
-					?>
-				</div><!-- .buttonset -->
-
-				</select>
-			</p>
-		</div><!-- .widgetizer-field -->
+					printf( '<input %s %s ><label class="switch-label" for="%s">%s</label></input>', $attributes, checked( $value, $key, false ), $clean_id, $label ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
+				?>
+			</div><!-- .buttonset -->
 		<?php
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -359,45 +381,38 @@ abstract class Widgetizer {
 		}
 
 		$value = $this->get_setting( $field_key );
-		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 
-				<?php
-				$layout_class = 'layout-vertical';
+		$this->render_field_open( $args );
 
-				if ( isset( $args['layout'] ) && ! empty( $args['layout'] ) ) {
-					$layout_class = 'layout-' . $args['layout'];
-				}
+		$this->render_field_label( $args );
 
-				echo '<ul class="radio-list ' . esc_attr( $layout_class ) . '">';
-				?>
+		$layout_class = 'layout-vertical';
 
-				<?php foreach ( $args['choices'] as $choice_key => $choice_label ) : ?>
+		if ( isset( $args['layout'] ) && ! empty( $args['layout'] ) ) {
+			$layout_class = 'layout-' . $args['layout'];
+		}
 
-					<?php
-					$attr = [
-						'type'  => 'radio',
-						'name'  => $this->get_field_name( $field_key ),
-						'value' => $choice_key,
-					];
+		echo '<ul class="radio-list ' . esc_attr( $layout_class ) . '">';
 
-					$attributes = $this->render_attr( $attr, false );
+		foreach ( $args['choices'] as $choice_key => $choice_label ) {
+			$attr = [
+				'type'  => 'radio',
+				'name'  => $this->get_field_name( $field_key ),
+				'value' => $choice_key,
+			];
 
-					echo '<li>';
+			$attributes = $this->render_attr( $attr, false );
 
-					printf( '<label><input %s %s />%s</label>', $attributes, checked( $value, $choice_key, false ), esc_html( $choice_label ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<li>';
 
-					echo '</li>';
-					?>
+			printf( '<label><input %s %s />%s</label>', $attributes, checked( $value, $choice_key, false ), esc_html( $choice_label ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-				<?php endforeach; ?>
+			echo '</li>';
+		}
 
-				<?php echo '</ul>'; ?>
-			</p>
-		</div><!-- .widgetizer-field -->
-		<?php
+		echo '</ul>';
+
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -440,14 +455,14 @@ abstract class Widgetizer {
 
 			$html .= '</ul>';
 		}
-		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
-				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</p>
-		</div><!-- .widgetizer-field -->
-		<?php
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -492,14 +507,14 @@ abstract class Widgetizer {
 
 			$html .= '</ul>';
 		}
-		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
-			<p>
-				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
-				<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</p>
-		</div><!-- .widgetizer-field -->
-		<?php
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_close( $args );
 	}
 
 	/**
@@ -515,7 +530,7 @@ abstract class Widgetizer {
 		if ( $this->is_valid_save_action() ) {
 			$settings = [];
 
-			$post_items = $_POST[ $this->widget_id ] ?? [];
+			$post_items = $_POST[ $this->widget_id ] ?? []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 
 			foreach ( $this->fields as $field_key => $field ) {
 				switch ( $field['type'] ) {
@@ -630,15 +645,11 @@ abstract class Widgetizer {
 			'data-ref' => wp_json_encode( $ref_data ),
 		];
 
-		echo '<div ' . $this->render_attr( $ref_attrs, false ) . '>';
+		echo '<div ' . $this->render_attr( $ref_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<ul>';
 
 		foreach ( $args['refs']['choices'] as $val => $label ) {
-			echo '<li>';
-			echo '<a href="#" class="button" data-val="' . esc_attr( $val ) . '">';
-			echo esc_html( $label );
-			echo '</a>';
-			echo '</li>';
+			echo '<li><a href="#" class="button" data-val="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</a></li>';
 		}
 
 		echo '</ul>';
