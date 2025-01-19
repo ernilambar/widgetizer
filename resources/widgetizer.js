@@ -79,7 +79,7 @@ import { getFieldType, submitSettingsForm } from './js/utils';
 	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
 
 	if ( submitterFields ) {
-		const inputTypeFields = [ 'buttonset', 'radio' ];
+		const inputTypeFields = [ 'buttonset', 'radio', 'radioimage' ];
 
 		submitterFields.forEach( ( submitterField ) => {
 			const fieldType = getFieldType( submitterField );

@@ -452,6 +452,53 @@ abstract class Widgetizer {
 	}
 
 	/**
+	 * Render radio image.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 */
+	private function callback_radioimage( array $args ) {
+		$field_key = $args['id'] ?? '';
+
+		if ( empty( $field_key ) ) {
+			return;
+		}
+
+		$value = $this->get_setting( $field_key );
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		$layout_class = 'layout-' . ( ! empty( $args['layout'] ?? '' ) ? $args['layout'] : 'vertical' );
+
+		echo '<ul class="radio-images ' . esc_attr( $layout_class ) . '">';
+
+		foreach ( $args['choices'] as $choice_key => $choice_url ) {
+			$attr = [
+				'type'  => 'radio',
+				'name'  => $this->get_field_name( $field_key ),
+				'value' => $choice_key,
+			];
+
+			$attributes = $this->render_attr( $attr, false );
+
+			echo '<li>';
+
+			printf( '<label><input %s %s />%s</label>', $attributes, checked( $value, $choice_key, false ), '<img src="' . esc_url( $choice_url ) . '" alt="' . esc_attr( $choice_key ) . '">' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+			echo '</li>';
+		}
+
+		echo '</ul>';
+
+		$this->render_field_close( $args );
+	}
+
+	/**
 	 * Render multicheck.
 	 *
 	 * @since 1.0.0
