@@ -77,25 +77,21 @@ import './widgetizer.css';
 		} );
 	}
 
-	//Buttonsets.
-	const buttonsets = document.querySelectorAll( '.widgetizer-field-type-buttonset' );
+	// Submitter fields.
+	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
 
-	if ( buttonsets ) {
-		buttonsets.forEach( ( buttonset ) => {
-			const wfData = JSON.parse( buttonset.getAttribute( 'data-wfdata' ) );
+	if ( submitterFields ) {
+		submitterFields.forEach( ( submitterField ) => {
+			const childSets = submitterField.querySelectorAll( 'input' );
 
-			if ( true === wfData.submitter ) {
-				const childSets = buttonset.querySelectorAll( 'input' );
-
-				childSets.forEach( ( childset ) => {
-					childset.addEventListener( 'click', function ( event ) {
-						const form = childset.closest( 'form' );
-						if ( form ) {
-							HTMLFormElement.prototype.submit.call( form );
-						}
-					} );
+			childSets.forEach( ( childset ) => {
+				childset.addEventListener( 'click', function ( event ) {
+					const form = childset.closest( 'form' );
+					if ( form ) {
+						HTMLFormElement.prototype.submit.call( form );
+					}
 				} );
-			}
+			} );
 		} );
 	}
 } )( jQuery );

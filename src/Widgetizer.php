@@ -209,20 +209,19 @@ abstract class Widgetizer {
 	 * @param array $args Arguments.
 	 */
 	private function render_field_open( array $args ) {
-		$wf_data = [
-			'submitter' => ( isset( $args['submitter'] ) && true === $args['submitter'] ) ? true : false,
-		];
-
 		$field_attrs = [
-			'class'       => [
+			'class' => [
 				'widgetizer-field',
 				'widgetizer-field-type-' . $args['type'],
 			],
-			'data-wfdata' => wp_json_encode( $wf_data ),
 		];
 
+		if ( ( isset( $args['submitter'] ) && true === $args['submitter'] ) ) {
+			$field_attrs['class'][] = 'widgetizer-field-mode-submitter';
+		}
+
 		echo '<div ' . $this->render_attr( $field_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<p style="border:1px red solid;">';
+		echo '<p>';
 	}
 
 	/**
