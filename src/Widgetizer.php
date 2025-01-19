@@ -137,6 +137,30 @@ abstract class Widgetizer {
 	}
 
 	/**
+	 * Returns field id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $key Field key.
+	 * @return string Field id.
+	 */
+	private function get_field_id( string $key ): string {
+		return $this->widget_id . '---' . $key;
+	}
+
+	/**
+	 * Returns field for id.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Field args.
+	 * @return string Field for id.
+	 */
+	private function get_field_for_id( array $args ): string {
+		return in_array( $args['type'], [ 'code', 'email', 'image', 'number', 'select', 'text', 'textarea', 'url' ], true ) ? $this->get_field_id( $args['id'] ) : '';
+	}
+
+	/**
 	 * Checks whether valid save action is triggered.
 	 *
 	 * @since 1.0.0
@@ -198,7 +222,17 @@ abstract class Widgetizer {
 	 * @param array $args Arguments.
 	 */
 	private function render_field_label( array $args ) {
-		echo '<label class="widgetizer-field-label">' . esc_html( $args['title'] ) . '</label>';
+		$label_attrs = [
+			'class' => [ 'widgetizer-field-label' ],
+		];
+
+		$for_id = $this->get_field_for_id( $args );
+
+		if ( ! empty( $for_id ) ) {
+			$label_attrs['for'] = $for_id;
+		}
+
+		echo '<label ' . $this->render_attr( $label_attrs, false ) . '>' . esc_html( $args['title'] ) . '</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -253,6 +287,7 @@ abstract class Widgetizer {
 		$attr = [
 			'type'  => $args['type'],
 			'name'  => $this->get_field_name( $field_key ),
+			'id'    => $this->get_field_id( $field_key ),
 			'value' => $this->get_setting( $field_key ),
 			'class' => '',
 		];
@@ -307,7 +342,7 @@ abstract class Widgetizer {
 
 		$this->render_field_label( $args );
 		?>
-			<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>">
+			<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( $field_key ) ); ?>">
 
 			<?php foreach ( $args['choices'] as $choice_key => $choice_label ) : ?>
 
