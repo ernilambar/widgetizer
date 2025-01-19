@@ -1,6 +1,6 @@
-import './widgetizer.css';
+import './css/widgetizer.css';
 
-import { getFieldType } from './utils';
+import { getFieldType, submitSettingsForm } from './js/utils';
 
 ( function ( $ ) {
 	$( '.widgetizer-field-type-sortable' ).each( function ( index, element ) {
@@ -67,11 +67,7 @@ import { getFieldType } from './utils';
 						inputField.value = value;
 
 						if ( true === refData.submitter ) {
-							const form = fieldContainer.closest( 'form' );
-
-							if ( form ) {
-								HTMLFormElement.prototype.submit.call( form );
-							}
+							submitSettingsForm( fieldContainer );
 						}
 					}
 				}
@@ -91,20 +87,14 @@ import { getFieldType } from './utils';
 			if ( inputTypeFields.includes( fieldType ) ) {
 				const childInputFields = submitterField.querySelectorAll( 'input' );
 
-				childInputFields.forEach( ( childset ) => {
-					childset.addEventListener( 'click', function ( event ) {
-						const form = childset.closest( 'form' );
-						if ( form ) {
-							HTMLFormElement.prototype.submit.call( form );
-						}
+				childInputFields.forEach( ( childInputField ) => {
+					childInputField.addEventListener( 'click', function ( event ) {
+						submitSettingsForm( childInputField );
 					} );
 				} );
 			} else if ( 'select' === fieldType ) {
 				submitterField.addEventListener( 'change', function () {
-					const form = submitterField.closest( 'form' );
-					if ( form ) {
-						HTMLFormElement.prototype.submit.call( form );
-					}
+					submitSettingsForm( submitterField );
 				} );
 			}
 		} );

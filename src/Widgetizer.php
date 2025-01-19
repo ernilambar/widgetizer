@@ -173,7 +173,7 @@ abstract class Widgetizer {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $field Field detail.
+	 * @param array $field Field details.
 	 */
 	private function render_form_field( $field ) {
 		$field_key = $field['id'] ?? '';
@@ -264,7 +264,9 @@ abstract class Widgetizer {
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
 		$this->render_field_refs( $args );
 
 		$this->render_field_close( $args );
