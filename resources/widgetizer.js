@@ -1,5 +1,7 @@
 import './widgetizer.css';
 
+import { getFieldType } from './utils';
+
 ( function ( $ ) {
 	$( '.widgetizer-field-type-sortable' ).each( function ( index, element ) {
 		const $this = $( this );
@@ -77,23 +79,32 @@ import './widgetizer.css';
 		} );
 	}
 
-	//Buttonsets.
-	const buttonsets = document.querySelectorAll( '.widgetizer-field-type-buttonset' );
+	// Submitter fields.
+	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
 
-	if ( buttonsets ) {
-		buttonsets.forEach( ( buttonset ) => {
-			const wfData = JSON.parse( buttonset.getAttribute( 'data-wfdata' ) );
+	if ( submitterFields ) {
+		const inputTypeFields = [ 'buttonset', 'radio' ];
 
-			if ( true === wfData.submitter ) {
-				const childSets = buttonset.querySelectorAll( 'input' );
+		submitterFields.forEach( ( submitterField ) => {
+			const fieldType = getFieldType( submitterField );
 
-				childSets.forEach( ( childset ) => {
+			if ( inputTypeFields.includes( fieldType ) ) {
+				const childInputFields = submitterField.querySelectorAll( 'input' );
+
+				childInputFields.forEach( ( childset ) => {
 					childset.addEventListener( 'click', function ( event ) {
 						const form = childset.closest( 'form' );
 						if ( form ) {
 							HTMLFormElement.prototype.submit.call( form );
 						}
 					} );
+				} );
+			} else if ( 'select' === fieldType ) {
+				submitterField.addEventListener( 'change', function () {
+					const form = submitterField.closest( 'form' );
+					if ( form ) {
+						HTMLFormElement.prototype.submit.call( form );
+					}
 				} );
 			}
 		} );
