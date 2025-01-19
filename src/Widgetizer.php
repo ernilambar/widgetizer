@@ -605,10 +605,23 @@ abstract class Widgetizer {
 			return;
 		}
 
-		echo '<div class="widgetizer-field-refs">';
+		if ( empty( $args['refs']['choices'] ) || ! is_array( $args['refs']['choices'] ) ) {
+			return;
+		}
+
+		$ref_data = [
+			'submitter' => ( isset( $args['refs']['submitter'] ) && true === $args['refs']['submitter'] ) ? true : false,
+		];
+
+		$ref_attrs = [
+			'class'    => [ 'widgetizer-field-refs' ],
+			'data-ref' => wp_json_encode( $ref_data ),
+		];
+
+		echo '<div ' . $this->render_attr( $ref_attrs, false ) . '>';
 		echo '<ul>';
 
-		foreach ( $args['refs'] as $val => $label ) {
+		foreach ( $args['refs']['choices'] as $val => $label ) {
 			echo '<li>';
 			echo '<a href="#" class="button" data-val="' . esc_attr( $val ) . '">';
 			echo esc_html( $label );

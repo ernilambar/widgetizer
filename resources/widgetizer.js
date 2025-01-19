@@ -52,6 +52,9 @@ import './widgetizer.css';
 				event.preventDefault();
 
 				const fieldContainer = link.closest( '.widgetizer-field' );
+				const refContainer = link.closest( '.widgetizer-field-refs' );
+
+				const refData = JSON.parse( refContainer.getAttribute( 'data-ref' ) );
 
 				if ( fieldContainer ) {
 					const inputField = fieldContainer.querySelector( 'input[type="number"]' );
@@ -61,10 +64,12 @@ import './widgetizer.css';
 
 						inputField.value = value;
 
-						const form = fieldContainer.closest( 'form' );
+						if ( true === refData.submitter ) {
+							const form = fieldContainer.closest( 'form' );
 
-						if ( form ) {
-							HTMLFormElement.prototype.submit.call( form );
+							if ( form ) {
+								HTMLFormElement.prototype.submit.call( form );
+							}
 						}
 					}
 				}
