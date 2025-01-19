@@ -1,4 +1,6 @@
-import './widgetizer.css';
+import './css/widgetizer.css';
+
+import { getFieldType, submitSettingsForm } from './js/utils';
 
 ( function ( $ ) {
 	$( '.widgetizer-field-type-sortable' ).each( function ( index, element ) {
@@ -65,11 +67,7 @@ import './widgetizer.css';
 						inputField.value = value;
 
 						if ( true === refData.submitter ) {
-							const form = fieldContainer.closest( 'form' );
-
-							if ( form ) {
-								HTMLFormElement.prototype.submit.call( form );
-							}
+							submitSettingsForm( fieldContainer );
 						}
 					}
 				}
@@ -81,17 +79,24 @@ import './widgetizer.css';
 	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
 
 	if ( submitterFields ) {
-		submitterFields.forEach( ( submitterField ) => {
-			const childSets = submitterField.querySelectorAll( 'input' );
+		const inputTypeFields = [ 'buttonset', 'radio' ];
 
-			childSets.forEach( ( childset ) => {
-				childset.addEventListener( 'click', function ( event ) {
-					const form = childset.closest( 'form' );
-					if ( form ) {
-						HTMLFormElement.prototype.submit.call( form );
-					}
+		submitterFields.forEach( ( submitterField ) => {
+			const fieldType = getFieldType( submitterField );
+
+			if ( inputTypeFields.includes( fieldType ) ) {
+				const childInputFields = submitterField.querySelectorAll( 'input' );
+
+				childInputFields.forEach( ( childInputField ) => {
+					childInputField.addEventListener( 'click', function ( event ) {
+						submitSettingsForm( childInputField );
+					} );
 				} );
-			} );
+			} else if ( 'select' === fieldType ) {
+				submitterField.addEventListener( 'change', function () {
+					submitSettingsForm( submitterField );
+				} );
+			}
 		} );
 	}
 } )( jQuery );
