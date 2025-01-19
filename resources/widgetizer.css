@@ -1,0 +1,38 @@
+.ticktor-field-label {
+	font-weight: 600;
+}
+
+.ticktor-field-type-sortable {
+	ul.sortable {
+		cursor: default;
+
+		.dashicons-visibility {
+			cursor: pointer;
+		}
+
+		li {
+			padding: 5px 10px;
+			border: 1px solid #333;
+			background-color: #fff;
+			cursor: move;
+			max-width: 200px;
+
+			.dashicons.dashicons-menu {
+				float: right;
+			}
+
+			.dashicons.visibility {
+				margin-right: 10px;
+			}
+
+			&.invisible {
+				color: #aaa;
+				border: 1px dashed #aaa;
+
+				.dashicons.visibility {
+					color: #aaa;
+				}
+			}
+		}
+	}
+}
