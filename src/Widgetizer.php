@@ -299,8 +299,20 @@ abstract class Widgetizer {
 		}
 
 		$value = $this->get_setting( $field_key );
+
+		$wf_data = [
+			'submitter' => ( isset( $args['submitter'] ) && true === $args['submitter'] ) ? true : false,
+		];
+
+		$field_attrs = [
+			'class'       => [
+				'widgetizer-field',
+				'widgetizer-field-type-' . $args['type'],
+			],
+			'data-wfdata' => wp_json_encode( $wf_data ),
+		];
 		?>
-		<div class="widgetizer-field widgetizer-field-type-<?php echo esc_attr( $args['type'] ); ?>">
+		<div <?php $this->render_attr( $field_attrs ); ?>>
 			<p>
 				<label class="widgetizer-field-label"><?php echo esc_html( $args['title'] ); ?></label>
 

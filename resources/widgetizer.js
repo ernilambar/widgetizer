@@ -38,7 +38,7 @@ import './widgetizer.css';
 							.toggleClass( 'invisible' );
 					} );
 			} )
-			.click( function () {
+			.on( 'click', function () {
 				$this.updateValue();
 			} );
 	} );
@@ -74,6 +74,28 @@ import './widgetizer.css';
 					}
 				}
 			} );
+		} );
+	}
+
+	//Buttonsets.
+	const buttonsets = document.querySelectorAll( '.widgetizer-field-type-buttonset' );
+
+	if ( buttonsets ) {
+		buttonsets.forEach( ( buttonset ) => {
+			const wfData = JSON.parse( buttonset.getAttribute( 'data-wfdata' ) );
+
+			if ( true === wfData.submitter ) {
+				const childSets = buttonset.querySelectorAll( 'input' );
+
+				childSets.forEach( ( childset ) => {
+					childset.addEventListener( 'click', function ( event ) {
+						const form = childset.closest( 'form' );
+						if ( form ) {
+							HTMLFormElement.prototype.submit.call( form );
+						}
+					} );
+				} );
+			}
 		} );
 	}
 } )( jQuery );
