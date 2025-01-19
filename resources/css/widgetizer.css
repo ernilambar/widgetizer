@@ -103,6 +103,7 @@
 
 		&.layout-horizontal {
 			flex-direction: row;
+			justify-content: start;
 		}
 	}
 }
