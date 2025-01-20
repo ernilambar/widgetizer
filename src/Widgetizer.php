@@ -254,8 +254,12 @@ abstract class Widgetizer {
 			$field_attrs['class'][] = 'widgetizer-field-mode-submitter';
 		}
 
+		if ( ( isset( $args['inline'] ) && true === $args['inline'] ) ) {
+			$field_attrs['class'][] = 'widgetizer-field-layout-inline';
+		}
+
 		echo '<div ' . $this->render_attr( $field_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<p>';
+		echo '<div class="widgetizer-field-inner">';
 	}
 
 	/**
@@ -266,7 +270,7 @@ abstract class Widgetizer {
 	 * @param array $args Arguments.
 	 */
 	private function render_field_close( array $args ) {
-		echo '</p>';
+		echo '</div>';
 		echo '</div><!-- .widgetizer-field.widgetizer-field-type-' . esc_attr( $args['type'] ) . ' -->';
 	}
 
