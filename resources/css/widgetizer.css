@@ -168,7 +168,7 @@ body #dashboard-widgets .postbox form .submit {
 			&:checked {
 				+ .switch-label {
 					border-color: #7e8993;
-					background: #2271b1;
+					background: var(--widgetizer-color-primary);
 					color: #fff;
 					z-index: 2;
 				}
