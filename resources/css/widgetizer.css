@@ -1,5 +1,7 @@
 body #dashboard-widgets .postbox form .submit {
 	margin-top: 15px;
+	display: flex;
+	gap: 15px;
 }
 
 .widgetizer-field {

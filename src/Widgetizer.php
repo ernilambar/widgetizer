@@ -109,6 +109,15 @@ abstract class Widgetizer {
 	}
 
 	/**
+	 * Resets all widget options.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function reset_settings() {
+		delete_option( $this->widget_id );
+	}
+
+	/**
 	 * Returns widget options.
 	 *
 	 * @since 1.0.0
@@ -134,7 +143,7 @@ abstract class Widgetizer {
 			return;
 		}
 
-		if ( $this->is_valid_save_action() ) {
+		if ( $this->is_valid_save_submit_action() ) {
 			$settings = [];
 
 			$post_items = $_POST[ $this->widget_id ] ?? []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
@@ -176,7 +185,20 @@ abstract class Widgetizer {
 					$this->set_setting( $key, $value );
 				}
 			}
+		} elseif ( $this->is_valid_reset_submit_action() ) {
+			$this->reset_settings();
 		}
+	}
+
+	/**
+	 * Checks whether valid submit action is triggered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if valid, otherwise false.
+	 */
+	protected function is_valid_submit_action() {
+		return ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
 	}
 
 	/**
@@ -186,8 +208,27 @@ abstract class Widgetizer {
 	 *
 	 * @return bool True if valid, otherwise false.
 	 */
-	protected function is_valid_save_action() {
-		return ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
+	protected function is_valid_save_submit_action() {
+		return (
+			$this->is_valid_submit_action() &&
+			array_key_exists( 'submit_type', $_POST ) &&
+			( 'save' === $_POST['submit_type'] )
+		);
+	}
+
+	/**
+	 * Checks whether valid reset action is triggered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if valid, otherwise false.
+	 */
+	protected function is_valid_reset_submit_action() {
+		return (
+			$this->is_valid_submit_action() &&
+			array_key_exists( 'submit_type', $_POST ) &&
+			( 'reset' === $_POST['submit_type'] )
+		);
 	}
 
 	/**
@@ -207,6 +248,7 @@ abstract class Widgetizer {
 		}
 
 		echo '<input type="hidden" name="action" value="' . esc_attr( 'save_' . $this->widget_id ) . '" />';
+		echo '<input type="hidden" name="submit_type" value="save" />';
 
 		echo '</div><!-- .widgetizer-widget-settings-wrap -->';
 	}

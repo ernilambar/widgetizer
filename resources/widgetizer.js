@@ -3,7 +3,40 @@ import './css/widgetizer.css';
 import Sortable from 'sortablejs';
 import { getFieldType, submitSettingsForm } from './js/utils';
 
-window.addEventListener( 'DOMContentLoaded', function () {
+const handleFormReset = () => {
+	const submitParagraph = document.querySelector( '.dashboard-widget-control-form .submit' );
+
+	if ( submitParagraph ) {
+		const resetButton = document.createElement( 'input' );
+		resetButton.type = 'submit';
+		resetButton.value = 'Reset';
+		resetButton.name = 'reset';
+		resetButton.className = 'button button-secondary';
+
+		const form = submitParagraph.closest( 'form' );
+
+		submitParagraph.appendChild( resetButton );
+
+		resetButton.addEventListener( 'click', function ( event ) {
+			event.preventDefault();
+
+			const hiddenInput = form.querySelector( 'input[name="submit_type"]' );
+
+			if ( hiddenInput ) {
+				hiddenInput.value = 'reset';
+			}
+
+			if ( form ) {
+				HTMLFormElement.prototype.submit.call( form );
+			}
+		} );
+	}
+};
+
+document.addEventListener( 'DOMContentLoaded', function () {
+	// Reset button.
+	handleFormReset();
+
 	const sortableFields = document.querySelectorAll( '.widgetizer-field-type-sortable' );
 
 	const updateSortableValue = ( field ) => {
