@@ -125,6 +125,93 @@ abstract class Widgetizer {
 	}
 
 	/**
+	 * Update form.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function update_form() {
+		if ( empty( $this->fields ) ) {
+			return;
+		}
+
+		if ( $this->is_valid_save_action() ) {
+			$settings = [];
+
+			$post_items = $_POST[ $this->widget_id ] ?? []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+
+			foreach ( $this->fields as $field_key => $field ) {
+				switch ( $field['type'] ) {
+					case 'url':
+						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
+						$sanitized_value = eac_url_raw( wp_unslash( $raw_value ) );
+						break;
+
+					case 'number':
+						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
+						$sanitized_value = intval( wp_unslash( $raw_value ) );
+						break;
+
+					case 'multicheck':
+						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : [];
+						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
+						break;
+
+					case 'sortable':
+						$input_value     = array_key_exists( $field_key, $post_items ) ? (string) $post_items[ $field_key ] : '';
+						$raw_value       = wp_parse_list( $input_value );
+						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
+						break;
+
+					default:
+						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
+						$sanitized_value = sanitize_text_field( wp_unslash( $raw_value ) );
+						break;
+				}
+
+				$settings[ $field_key ] = $sanitized_value;
+			}
+
+			if ( ! empty( $settings ) ) {
+				foreach ( $settings as $key => $value ) {
+					$this->set_setting( $key, $value );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks whether valid save action is triggered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool True if valid, otherwise false.
+	 */
+	protected function is_valid_save_action() {
+		return ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
+	}
+
+	/**
+	 * Renders widget settings form.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function render_form() {
+		if ( empty( $this->fields ) ) {
+			return;
+		}
+
+		echo '<div class="widgetizer-widget-settings-wrap">';
+
+		foreach ( $this->fields as $field ) {
+			$this->render_form_field( $field );
+		}
+
+		echo '<input type="hidden" name="action" value="' . esc_attr( 'save_' . $this->widget_id ) . '" />';
+
+		echo '</div><!-- .widgetizer-widget-settings-wrap -->';
+	}
+
+	/**
 	 * Returns field name.
 	 *
 	 * @since 1.0.0
@@ -158,38 +245,6 @@ abstract class Widgetizer {
 	 */
 	private function get_field_for_id( array $args ): string {
 		return in_array( $args['type'], [ 'code', 'email', 'image', 'number', 'select', 'text', 'textarea', 'url' ], true ) ? $this->get_field_id( $args['id'] ) : '';
-	}
-
-	/**
-	 * Checks whether valid save action is triggered.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool True if valid, otherwise false.
-	 */
-	protected function is_valid_save_action() {
-		return ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'save_' . $this->widget_id === $_POST['action'] );
-	}
-
-	/**
-	 * Renders widget settings form.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function render_form() {
-		if ( empty( $this->fields ) ) {
-			return;
-		}
-
-		echo '<div class="widgetizer-widget-settings-wrap">';
-
-		foreach ( $this->fields as $field ) {
-			$this->render_form_field( $field );
-		}
-
-		echo '<input type="hidden" name="action" value="' . esc_attr( 'save_' . $this->widget_id ) . '" />';
-
-		echo '</div><!-- .widgetizer-widget-settings-wrap -->';
 	}
 
 	/**
@@ -232,7 +287,7 @@ abstract class Widgetizer {
 			$label_attrs['for'] = $for_id;
 		}
 
-		echo '<label ' . $this->render_attr( $label_attrs, false ) . '>' . esc_html( $args['title'] ) . '</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<label ' . $this->render_attr( $label_attrs, [ 'display' => false ] ) . '>' . esc_html( $args['title'] ) . '</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -258,7 +313,7 @@ abstract class Widgetizer {
 			$field_attrs['class'][] = 'widgetizer-field-layout-inline';
 		}
 
-		echo '<div ' . $this->render_attr( $field_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div ' . $this->render_attr( $field_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<div class="widgetizer-field-inner">';
 	}
 
@@ -296,7 +351,7 @@ abstract class Widgetizer {
 			'class' => '',
 		];
 
-		$attributes = $this->render_attr( $attr, false );
+		$attributes = $this->render_attr( $attr, [ 'display' => false ] );
 
 		$html = sprintf( '<input %s />', $attributes );
 
@@ -394,7 +449,7 @@ abstract class Widgetizer {
 						'class' => [ 'switch-input' ],
 					];
 
-					$attributes = $this->render_attr( $attr, false );
+					$attributes = $this->render_attr( $attr, [ 'display' => false ] );
 
 					printf( '<input %s %s ><label class="switch-label" for="%s">%s</label></input>', $attributes, checked( $value, $key, false ), $clean_id, $label ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
@@ -441,7 +496,7 @@ abstract class Widgetizer {
 				'value' => $choice_key,
 			];
 
-			$attributes = $this->render_attr( $attr, false );
+			$attributes = $this->render_attr( $attr, [ 'display' => false ] );
 
 			echo '<li>';
 
@@ -488,7 +543,7 @@ abstract class Widgetizer {
 				'value' => $choice_key,
 			];
 
-			$attributes = $this->render_attr( $attr, false );
+			$attributes = $this->render_attr( $attr, [ 'display' => false ] );
 
 			echo '<li>';
 
@@ -532,7 +587,7 @@ abstract class Widgetizer {
 					'value' => $key,
 				];
 
-				$attributes = $this->render_attr( $attr, false );
+				$attributes = $this->render_attr( $attr, [ 'display' => false ] );
 
 				$html .= '<li>';
 				$html .= sprintf( '<input %s %s />', $attributes, checked( in_array( (string) $key, $field_value, true ), true, false ) );
@@ -605,105 +660,6 @@ abstract class Widgetizer {
 	}
 
 	/**
-	 * Update form.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function update_form() {
-		if ( empty( $this->fields ) ) {
-			return;
-		}
-
-		if ( $this->is_valid_save_action() ) {
-			$settings = [];
-
-			$post_items = $_POST[ $this->widget_id ] ?? []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
-
-			foreach ( $this->fields as $field_key => $field ) {
-				switch ( $field['type'] ) {
-					case 'url':
-						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
-						$sanitized_value = eac_url_raw( wp_unslash( $raw_value ) );
-						break;
-
-					case 'number':
-						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
-						$sanitized_value = intval( wp_unslash( $raw_value ) );
-						break;
-
-					case 'multicheck':
-						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : [];
-						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
-						break;
-
-					case 'sortable':
-						$input_value     = array_key_exists( $field_key, $post_items ) ? (string) $post_items[ $field_key ] : '';
-						$raw_value       = wp_parse_list( $input_value );
-						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
-						break;
-
-					default:
-						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
-						$sanitized_value = sanitize_text_field( wp_unslash( $raw_value ) );
-						break;
-				}
-
-				$settings[ $field_key ] = $sanitized_value;
-			}
-
-			if ( ! empty( $settings ) ) {
-				foreach ( $settings as $key => $value ) {
-					$this->set_setting( $key, $value );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Render attributes.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $attributes Attributes.
-	 * @param bool  $display    Whether to echo or not.
-	 *
-	 * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
-	 */
-	private function render_attr( array $attributes, bool $display = true ) {
-		if ( empty( $attributes ) ) {
-			return;
-		}
-
-		$html = '';
-
-		foreach ( $attributes as $name => $value ) {
-			$esc_value = '';
-
-			if ( 'class' === $name && is_array( $value ) ) {
-				$value = join( ' ', array_unique( $value ) );
-			}
-
-			if ( false !== $value && 'href' === $name ) {
-				$esc_value = esc_url( $value );
-			} elseif ( false !== $value ) {
-				$esc_value = esc_attr( $value );
-			}
-
-			if ( ! in_array( $name, [ 'class', 'id', 'title', 'style', 'name' ], true ) ) {
-				$html .= false !== $value ? sprintf( ' %s="%s"', esc_html( $name ), $esc_value ) : esc_html( " {$name}" );
-			} else {
-				$html .= $value ? sprintf( ' %s="%s"', esc_html( $name ), $esc_value ) : '';
-			}
-		}
-
-		if ( ! empty( $html ) && true === $display ) {
-			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $html;
-		}
-	}
-
-	/**
 	 * Render field ref links.
 	 *
 	 * @since 1.0.0
@@ -732,7 +688,7 @@ abstract class Widgetizer {
 			'data-ref' => wp_json_encode( $ref_data ),
 		];
 
-		echo '<div ' . $this->render_attr( $ref_attrs, false ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div ' . $this->render_attr( $ref_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<ul>';
 
 		foreach ( $args['refs']['choices'] as $val => $label ) {
@@ -741,5 +697,54 @@ abstract class Widgetizer {
 
 		echo '</ul>';
 		echo '</div>';
+	}
+
+	/**
+	 * Render attributes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $attributes Attributes.
+	 * @param array $args       Arguments.
+	 */
+	private function render_attr( array $attributes, array $args = [] ) {
+		if ( empty( $attributes ) ) {
+			return;
+		}
+
+		$args = wp_parse_args(
+			$args,
+			[
+				'display' => true,
+			]
+		);
+
+		$html = '';
+
+		foreach ( $attributes as $name => $value ) {
+			$esc_value = '';
+
+			if ( 'class' === $name && is_array( $value ) ) {
+				$value = join( ' ', array_unique( $value ) );
+			}
+
+			if ( false !== $value && 'href' === $name ) {
+				$esc_value = esc_url( $value );
+			} elseif ( false !== $value ) {
+				$esc_value = esc_attr( $value );
+			}
+
+			if ( ! in_array( $name, [ 'class', 'id', 'title', 'style', 'name' ], true ) ) {
+				$html .= false !== $value ? sprintf( ' %s="%s"', esc_html( $name ), $esc_value ) : esc_html( " {$name}" );
+			} else {
+				$html .= $value ? sprintf( ' %s="%s"', esc_html( $name ), $esc_value ) : '';
+			}
+		}
+
+		if ( ! empty( $html ) && true === $args['display'] ) {
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $html;
+		}
 	}
 }
