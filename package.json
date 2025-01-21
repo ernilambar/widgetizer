@@ -18,6 +18,9 @@
 		"url": "https://github.com/ernilambar/widgetizer/issues"
 	},
 	"browserslist": "> 1%, not dead",
+	"dependencies": {
+		"sortablejs": "^1.15.6"
+	},
 	"devDependencies": {
 		"@babel/core": "^7.26.0",
 		"@babel/preset-env": "^7.26.0",

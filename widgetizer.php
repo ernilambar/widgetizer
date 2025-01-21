@@ -30,7 +30,7 @@ if ( ! function_exists( 'widgetizer_init' ) ) {
 			'admin_enqueue_scripts',
 			function () {
 				wp_enqueue_style( 'widgetizer-style', WIDGETIZER_URL . '/assets/widgetizer.css', [], WIDGETIZER_VERSION );
-				wp_enqueue_script( 'widgetizer-script', WIDGETIZER_URL . '/assets/widgetizer.js', [ 'jquery', 'jquery-ui-sortable' ], WIDGETIZER_VERSION, true );
+				wp_enqueue_script( 'widgetizer-script', WIDGETIZER_URL . '/assets/widgetizer.js', [], WIDGETIZER_VERSION, true );
 			}
 		);
 	}

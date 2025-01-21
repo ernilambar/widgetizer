@@ -20,6 +20,10 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 .widgetizer-field-type-sortable {
+	.sortable-ghost {
+		background-color: #c8ebfb !important;
+	}
+
 	ul.sortable {
 		cursor: default;
 		margin: 0;

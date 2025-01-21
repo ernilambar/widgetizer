@@ -1,49 +1,53 @@
 import './css/widgetizer.css';
 
+import Sortable from 'sortablejs';
 import { getFieldType, submitSettingsForm } from './js/utils';
 
-( function ( $ ) {
-	$( '.widgetizer-field-type-sortable' ).each( function ( index, element ) {
-		const $this = $( this );
+window.addEventListener( 'DOMContentLoaded', function () {
+	const sortableFields = document.querySelectorAll( '.widgetizer-field-type-sortable' );
 
-		$this.sortableContainer = $this.find( 'ul.sortable' ).first();
+	const updateSortableValue = ( field ) => {
+		const hiddenField = field.querySelector( 'input[type="hidden"]' );
 
-		$this.updateValue = () => {
-			const $hiddenField = $this.sortableContainer.find( 'input[type="hidden"]' );
+		const newValue = [];
 
-			const newValue = [];
+		field.querySelectorAll( 'li' ).forEach( ( li ) => {
+			if ( ! li.classList.contains( 'invisible' ) ) {
+				newValue.push( li.dataset.value );
+			}
+		} );
 
-			$this.sortableContainer.find( 'li' ).each( function () {
-				if ( ! $( this ).is( '.invisible' ) ) {
-					newValue.push( $( this ).data( 'value' ) );
-				}
-			} );
+		hiddenField.value = newValue.join( ',' );
+	};
 
-			$hiddenField.val( newValue.join( ',' ) );
-		};
+	if ( sortableFields ) {
+		sortableFields.forEach( ( sortableField ) => {
+			const sortableList = sortableField.querySelector( 'ul.sortable' );
 
-		$this.sortableContainer
-			.sortable( {
-				stop() {
-					$this.updateValue();
-				},
-			} )
-			.disableSelection()
-			.find( 'li' )
-			.each( function () {
-				$( this )
-					.find( 'i.visibility' )
-					.on( 'click', function () {
-						$( this )
-							.toggleClass( 'dashicons-visibility-faint' )
-							.parents( 'li:eq(0)' )
-							.toggleClass( 'invisible' );
-					} );
-			} )
-			.on( 'click', function () {
-				$this.updateValue();
-			} );
-	} );
+			if ( sortableList ) {
+				Sortable.create( sortableList, {
+					animation: 100,
+					onEnd: function ( evt ) {
+						updateSortableValue( sortableField );
+					},
+				} );
+
+				const listItems = sortableList.querySelectorAll( 'li' );
+
+				listItems.forEach( ( li ) => {
+					const visibilityIcon = li.querySelector( 'i.visibility' );
+					if ( visibilityIcon ) {
+						visibilityIcon.addEventListener( 'click', function ( event ) {
+							event.stopPropagation();
+							this.classList.toggle( 'dashicons-visibility-faint' );
+							li.classList.toggle( 'invisible' );
+							updateSortableValue( sortableField );
+						} );
+					}
+				} );
+			}
+		} );
+	}
 
 	// Handle field ref links.
 	const refLinks = document.querySelectorAll( '.widgetizer-field-refs a' );
@@ -99,4 +103,4 @@ import { getFieldType, submitSettingsForm } from './js/utils';
 			}
 		} );
 	}
-} )( jQuery );
+} );
