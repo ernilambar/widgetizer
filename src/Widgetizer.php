@@ -44,6 +44,14 @@ abstract class Widgetizer {
 	protected $fields;
 
 	/**
+	 * Extra widget args.
+	 *
+	 * @since 1.0.0
+	 * @var array
+	 */
+	protected $extra_args;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -52,10 +60,17 @@ abstract class Widgetizer {
 	 * @param string $widget_name Widget name.
 	 * @param array  $fields Widget fields.
 	 */
-	public function __construct( string $widget_id, string $widget_name, array $fields = [] ) {
+	public function __construct( string $widget_id, string $widget_name, array $fields = [], array $extra_args = [] ) {
 		$this->widget_id   = $widget_id;
 		$this->widget_name = $widget_name;
 		$this->fields      = $fields;
+		$this->extra_args  = wp_parse_args(
+			$extra_args,
+			[
+				'title_prefix' => '',
+				'title_suffix' => '',
+			]
+		);
 
 		add_action( 'wp_dashboard_setup', [ $this, 'register' ] );
 	}
@@ -75,10 +90,12 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 */
 	public function register() {
+		$title = sprintf( '%1$s%2$s%3$s', $this->extra_args['title_prefix'], $this->widget_name, $this->extra_args['title_suffix'] );
+
 		if ( ! empty( $this->fields ) ) {
-			wp_add_dashboard_widget( $this->widget_id, $this->widget_name, [ $this, 'widget' ], [ $this, 'settings' ] );
+			wp_add_dashboard_widget( $this->widget_id, $title, [ $this, 'widget' ], [ $this, 'settings' ] );
 		} else {
-			wp_add_dashboard_widget( $this->widget_id, $this->widget_name, [ $this, 'widget' ] );
+			wp_add_dashboard_widget( $this->widget_id, $title, [ $this, 'widget' ] );
 		}
 	}
 
