@@ -753,6 +753,10 @@ abstract class Widgetizer {
 
 		$html .= sprintf( '<input %s %s />', $attributes, checked( $field_value, true, false ) );
 
+		if ( array_key_exists( 'side_text', $args ) && ! empty( $args['side_text'] ) ) {
+			$html .= esc_html( ' ' . $args['side_text'] );
+		}
+
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
@@ -798,6 +802,10 @@ abstract class Widgetizer {
 		$html .= '<span class="slider"></span>';
 
 		$html .= '</label>';
+
+		if ( array_key_exists( 'side_text', $args ) && ! empty( $args['side_text'] ) ) {
+			$html .= esc_html( ' ' . $args['side_text'] );
+		}
 
 		$this->render_field_open( $args );
 

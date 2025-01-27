@@ -116,7 +116,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
 
 	if ( submitterFields ) {
-		const inputTypeFields = [ 'buttonset', 'radio', 'radioimage' ];
+		const inputTypeFields = [ 'buttonset', 'checkbox', 'radio', 'radioimage', 'toggle' ];
 
 		submitterFields.forEach( ( submitterField ) => {
 			const fieldType = getFieldType( submitterField );
