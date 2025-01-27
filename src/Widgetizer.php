@@ -169,7 +169,7 @@ abstract class Widgetizer {
 				switch ( $field['type'] ) {
 					case 'url':
 						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
-						$sanitized_value = eac_url_raw( wp_unslash( $raw_value ) );
+						$sanitized_value = esc_url_raw( wp_unslash( $raw_value ) );
 						break;
 
 					case 'number':
@@ -186,6 +186,11 @@ abstract class Widgetizer {
 						$input_value     = array_key_exists( $field_key, $post_items ) ? (string) $post_items[ $field_key ] : '';
 						$raw_value       = wp_parse_list( $input_value );
 						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
+						break;
+
+					case 'checkbox':
+					case 'toggle':
+						$sanitized_value = array_key_exists( $field_key, $post_items ) ? true : false;
 						break;
 
 					default:
@@ -714,6 +719,93 @@ abstract class Widgetizer {
 		$this->render_field_label( $args );
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_close( $args );
+	}
+
+	/**
+	 * Render checkbox.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	private function callback_checkbox( array $args ) {
+		$field_key = $args['id'] ?? '';
+
+		if ( empty( $field_key ) ) {
+			return;
+		}
+
+		$field_value = (bool) $this->get_setting( $field_key );
+
+		$attr = [
+			'type'  => 'checkbox',
+			'name'  => $this->get_field_name( $field_key ),
+			'id'    => $this->get_field_id( $field_key ),
+			'value' => $this->get_setting( $field_key ),
+			'class' => '',
+		];
+
+		$attributes = $this->render_attr( $attr, [ 'display' => false ] );
+
+		$html = '';
+
+		$html .= sprintf( '<input %s %s />', $attributes, checked( $field_value, true, false ) );
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_refs( $args );
+
+		$this->render_field_close( $args );
+	}
+	/**
+	 * Render toggle.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	private function callback_toggle( array $args ) {
+		$field_key = $args['id'] ?? '';
+
+		if ( empty( $field_key ) ) {
+			return;
+		}
+
+		$field_value = (bool) $this->get_setting( $field_key );
+
+		$attr = [
+			'type'  => 'checkbox',
+			'name'  => $this->get_field_name( $field_key ),
+			'id'    => $this->get_field_id( $field_key ),
+			'value' => $this->get_setting( $field_key ),
+			'class' => '',
+		];
+
+		$attributes = $this->render_attr( $attr, [ 'display' => false ] );
+
+		$html = '';
+
+		$html .= '<label class="toggle">';
+
+		$html .= sprintf( '<input %s %s />', $attributes, checked( $field_value, true, false ) );
+
+		$html .= '<span class="slider"></span>';
+
+		$html .= '</label>';
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_refs( $args );
 
 		$this->render_field_close( $args );
 	}
