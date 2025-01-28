@@ -56,9 +56,10 @@ abstract class Widgetizer {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $widget_id Widget ID.
+	 * @param string $widget_id   Widget ID.
 	 * @param string $widget_name Widget name.
-	 * @param array  $fields Widget fields.
+	 * @param array  $fields      Widget fields.
+	 * @param array  $extra_args  Extra arguments.
 	 */
 	public function __construct( string $widget_id, string $widget_name, array $fields = [], array $extra_args = [] ) {
 		$this->widget_id   = $widget_id;
@@ -729,6 +730,8 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_checkbox( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -773,6 +776,8 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_toggle( array $args ) {
 		$field_key = $args['id'] ?? '';
