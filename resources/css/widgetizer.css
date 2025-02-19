@@ -47,7 +47,7 @@ body #dashboard-widgets .postbox form .submit {
 			border: 1px solid #333;
 			background-color: #fff;
 			cursor: move;
-			max-width: 200px;
+			max-width: 240px;
 
 			.dashicons.dashicons-menu {
 				float: right;
