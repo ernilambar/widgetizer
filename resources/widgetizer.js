@@ -77,6 +77,32 @@ document.addEventListener( 'DOMContentLoaded', function () {
 							updateSortableValue( sortableField );
 						} );
 					}
+
+					const upIcon = li.querySelector( 'i.up' );
+					if ( upIcon ) {
+						upIcon.addEventListener( 'click', function ( event ) {
+							event.stopPropagation();
+							const previousSibling = li.previousElementSibling;
+
+							if ( previousSibling ) {
+								sortableList.insertBefore( li, previousSibling );
+								updateSortableValue( sortableField );
+							}
+						} );
+					}
+
+					const downIcon = li.querySelector( 'i.down' );
+					if ( downIcon ) {
+						downIcon.addEventListener( 'click', function ( event ) {
+							event.stopPropagation();
+							const nextSibling = li.nextElementSibling;
+
+							if ( nextSibling ) {
+								sortableList.insertBefore( nextSibling, li );
+								updateSortableValue( sortableField );
+							}
+						} );
+					}
 				} );
 			}
 		} );

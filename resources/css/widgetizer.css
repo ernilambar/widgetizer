@@ -30,8 +30,16 @@ body #dashboard-widgets .postbox form .submit {
 		cursor: default;
 		margin: 0;
 
-		.dashicons-visibility {
+		.dashicons-visibility,
+		.dashicons-arrow-up,
+		.dashicons-arrow-down {
 			cursor: pointer;
+		}
+
+		.list-arrows {
+			height: auto;
+			overflow: hidden;
+			float: right;
 		}
 
 		li {

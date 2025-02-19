@@ -692,6 +692,8 @@ abstract class Widgetizer {
 
 		$html = '';
 
+		$has_arrows = ( array_key_exists( 'arrows', $args ) && true === $args['arrows'] ) ? true : false;
+
 		if ( ! empty( $args['choices'] ) ) {
 			$active_choices = $field_value;
 
@@ -707,6 +709,11 @@ abstract class Widgetizer {
 				$html .= '<li class="' . esc_attr( $li_class ) . '" data-value="' . esc_attr( $key ) . '">';
 				$html .= "<i class='dashicons dashicons-menu'></i><i class='dashicons dashicons-visibility visibility'></i>";
 				$html .= $args['choices'][ $key ];
+
+				if ( $has_arrows ) {
+					$html .= "<span class='list-arrows'><i class='dashicons dashicons-arrow-up up'></i><i class='dashicons dashicons-arrow-down down'></i></span>";
+				}
+
 				$html .= '</li>';
 			}
 
