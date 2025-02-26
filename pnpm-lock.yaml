@@ -36,9 +36,6 @@ importers:
       mini-css-extract-plugin:
         specifier: ^2.9.2
         version: 2.9.2(webpack@5.97.1)
-      npm-package-json-lint:
-        specifier: ^8.0.0
-        version: 8.0.0
       postcss:
         specifier: ^8.5.1
         version: 8.5.1
