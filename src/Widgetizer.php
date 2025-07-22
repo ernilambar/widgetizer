@@ -152,6 +152,28 @@ abstract class Widgetizer {
 	}
 
 	/**
+	 * Get all widget settings.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array All widget settings with defaults.
+	 */
+	public function get_settings(): array {
+		$settings = get_option( $this->widget_id, [] );
+		$settings = is_array( $settings ) ? $settings : [];
+
+		$defaults = [];
+
+		foreach ( $this->fields as $field_key => $field ) {
+			if ( array_key_exists( 'default', $field ) ) {
+				$defaults[ $field_key ] = $field['default'];
+			}
+		}
+
+		return wp_parse_args( $settings, $defaults );
+	}
+
+	/**
 	 * Update form.
 	 *
 	 * @since 1.0.0
