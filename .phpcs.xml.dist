@@ -51,7 +51,6 @@
 
 	<rule ref="WordPress-Core">
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
-		<exclude name="Generic.Functions.CallTimePassByReference"/>
 	</rule>
 
 	<!-- Enforce short arrays. -->
