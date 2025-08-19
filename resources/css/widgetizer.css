@@ -122,7 +122,7 @@ body #dashboard-widgets .postbox form .submit {
 	}
 }
 
-.widgetizer-field-refs {
+.widgetizer-field-presets {
 	ul {
 		display: flex;
 		gap: 10px;

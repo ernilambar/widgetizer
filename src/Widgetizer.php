@@ -455,7 +455,7 @@ abstract class Widgetizer {
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		$this->render_field_refs( $args );
+		$this->render_field_presets( $args );
 
 		$this->render_field_close( $args );
 	}
@@ -826,7 +826,7 @@ abstract class Widgetizer {
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		$this->render_field_refs( $args );
+		$this->render_field_presets( $args );
 
 		$this->render_field_close( $args );
 	}
@@ -914,7 +914,7 @@ abstract class Widgetizer {
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		$this->render_field_refs( $args );
+		$this->render_field_presets( $args );
 
 		$this->render_field_close( $args );
 	}
@@ -935,38 +935,38 @@ abstract class Widgetizer {
 	}
 
 	/**
-	 * Render field ref links.
+	 * Render field presets.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $args Field arguments.
 	 */
-	private function render_field_refs( array $args ) {
-		if ( ! array_key_exists( 'refs', $args ) ) {
+	private function render_field_presets( array $args ) {
+		if ( ! array_key_exists( 'presets', $args ) ) {
 			return;
 		}
 
-		if ( empty( $args['refs'] ) || ! is_array( $args['refs'] ) ) {
+		if ( empty( $args['presets'] ) || ! is_array( $args['presets'] ) ) {
 			return;
 		}
 
-		if ( empty( $args['refs']['choices'] ) || ! is_array( $args['refs']['choices'] ) ) {
+		if ( empty( $args['presets']['choices'] ) || ! is_array( $args['presets']['choices'] ) ) {
 			return;
 		}
 
-		$ref_data = [
-			'submitter' => ( isset( $args['refs']['submitter'] ) && true === $args['refs']['submitter'] ) ? true : false,
+		$preset_data = [
+			'submitter' => ( isset( $args['presets']['submitter'] ) && true === $args['presets']['submitter'] ) ? true : false,
 		];
 
-		$ref_attrs = [
-			'class'    => [ 'widgetizer-field-refs' ],
-			'data-ref' => wp_json_encode( $ref_data ),
+		$preset_attrs = [
+			'class'       => [ 'widgetizer-field-presets' ],
+			'data-preset' => wp_json_encode( $preset_data ),
 		];
 
-		echo '<div ' . $this->render_attr( $ref_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div ' . $this->render_attr( $preset_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<ul>';
 
-		foreach ( $args['refs']['choices'] as $val => $label ) {
+		foreach ( $args['presets']['choices'] as $val => $label ) {
 			echo '<li><a href="#" class="button" data-val="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</a></li>';
 		}
 
