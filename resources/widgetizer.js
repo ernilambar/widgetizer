@@ -108,28 +108,28 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		} );
 	}
 
-	// Handle field ref links.
-	const refLinks = document.querySelectorAll( '.widgetizer-field-refs a' );
+	// Handle field presets.
+	const presetLinks = document.querySelectorAll( '.widgetizer-field-presets a' );
 
-	if ( refLinks ) {
-		refLinks.forEach( ( link ) => {
+	if ( presetLinks ) {
+		presetLinks.forEach( ( link ) => {
 			link.addEventListener( 'click', function ( event ) {
 				event.preventDefault();
 
 				const fieldContainer = link.closest( '.widgetizer-field' );
-				const refContainer = link.closest( '.widgetizer-field-refs' );
+				const presetContainer = link.closest( '.widgetizer-field-presets' );
 
-				const refData = JSON.parse( refContainer.getAttribute( 'data-ref' ) );
+				const presetData = JSON.parse( presetContainer.getAttribute( 'data-preset' ) );
 
 				if ( fieldContainer ) {
-					const inputField = fieldContainer.querySelector( 'input[type="number"]' );
+					const inputField = fieldContainer.querySelector( 'input' );
 
 					if ( inputField ) {
 						const value = link.getAttribute( 'data-val' );
 
 						inputField.value = value;
 
-						if ( true === refData.submitter ) {
+						if ( true === presetData.submitter ) {
 							submitSettingsForm( fieldContainer );
 						}
 					}
