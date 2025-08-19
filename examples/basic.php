@@ -19,7 +19,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 	public function __construct() {
 		$fields = [
 			// Text field example.
-			'text_field' => [
+			'text_field'          => [
 				'id'          => 'text_field',
 				'type'        => 'text',
 				'title'       => esc_html__( 'Text Field:' ),
@@ -28,15 +28,15 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Number field example.
-			'number_field' => [
-				'id'          => 'number_field',
-				'type'        => 'number',
-				'title'       => esc_html__( 'Number Field:' ),
-				'default'     => 10,
+			'number_field'        => [
+				'id'      => 'number_field',
+				'type'    => 'number',
+				'title'   => esc_html__( 'Number Field:' ),
+				'default' => 10,
 			],
 
 			// URL field example.
-			'url_field' => [
+			'url_field'           => [
 				'id'          => 'url_field',
 				'type'        => 'url',
 				'title'       => esc_html__( 'URL Field:' ),
@@ -45,7 +45,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Email field example.
-			'email_field' => [
+			'email_field'         => [
 				'id'          => 'email_field',
 				'type'        => 'email',
 				'title'       => esc_html__( 'Email Field:' ),
@@ -53,8 +53,15 @@ class Basic_Widgetizer_Example extends Widgetizer {
 				'placeholder' => esc_html__( 'admin@example.com' ),
 			],
 
+			// Password field example.
+			'password_field'      => [
+				'id'    => 'password_field',
+				'type'  => 'password',
+				'title' => esc_html__( 'Password Field:' ),
+			],
+
 			// Textarea field example.
-			'textarea_field' => [
+			'textarea_field'      => [
 				'id'          => 'textarea_field',
 				'type'        => 'textarea',
 				'title'       => esc_html__( 'Textarea Field:' ),
@@ -63,7 +70,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Select field example.
-			'select_field' => [
+			'select_field'        => [
 				'id'      => 'select_field',
 				'type'    => 'select',
 				'title'   => esc_html__( 'Select Field:' ),
@@ -77,7 +84,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Buttonset field example.
-			'buttonset_field' => [
+			'buttonset_field'     => [
 				'id'      => 'buttonset_field',
 				'type'    => 'buttonset',
 				'title'   => esc_html__( 'Buttonset Field:' ),
@@ -90,7 +97,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Radio field example.
-			'radio_field' => [
+			'radio_field'         => [
 				'id'      => 'radio_field',
 				'type'    => 'radio',
 				'title'   => esc_html__( 'Radio Field:' ),
@@ -102,24 +109,11 @@ class Basic_Widgetizer_Example extends Widgetizer {
 				],
 			],
 
-			// Radio image field example.
-			'radioimage_field' => [
-				'id'      => 'radioimage_field',
-				'type'    => 'radioimage',
-				'title'   => esc_html__( 'Radio Image Field:' ),
-				'default' => 'layout1',
-				'choices' => [
-					'layout1' => 'https://picsum.photos/id/1/150/100',
-					'layout2' => 'https://picsum.photos/id/2/150/100',
-					'layout3' => 'https://picsum.photos/id/3/150/100',
-				],
-			],
-
-				// Multicheckbox field example.
-	'multicheckbox_field' => [
-		'id'      => 'multicheckbox_field',
-		'type'    => 'multicheckbox',
-		'title'   => esc_html__( 'Multicheckbox Field:' ),
+			// Multicheckbox field example.
+			'multicheckbox_field' => [
+				'id'      => 'multicheckbox_field',
+				'type'    => 'multicheckbox',
+				'title'   => esc_html__( 'Multicheckbox Field:' ),
 				'default' => [ 'option1', 'option3' ],
 				'choices' => [
 					'option1' => esc_html__( 'Check Option 1' ),
@@ -130,7 +124,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Sortable field example.
-			'sortable_field' => [
+			'sortable_field'      => [
 				'id'      => 'sortable_field',
 				'type'    => 'sortable',
 				'title'   => esc_html__( 'Sortable Field:' ),
@@ -146,7 +140,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Checkbox field example.
-			'checkbox_field' => [
+			'checkbox_field'      => [
 				'id'        => 'checkbox_field',
 				'type'      => 'checkbox',
 				'title'     => esc_html__( 'Checkbox Field:' ),
@@ -155,7 +149,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 			],
 
 			// Toggle field example.
-			'toggle_field' => [
+			'toggle_field'        => [
 				'id'        => 'toggle_field',
 				'type'      => 'toggle',
 				'title'     => esc_html__( 'Toggle Field:' ),

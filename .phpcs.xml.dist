@@ -15,7 +15,6 @@
 	<exclude-pattern>*/assets/*</exclude-pattern>
 	<exclude-pattern>*/build/*</exclude-pattern>
 	<exclude-pattern>*/deploy/*</exclude-pattern>
-	<exclude-pattern>*/examples/*</exclude-pattern>
 	<exclude-pattern>*/languages/*</exclude-pattern>
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>
@@ -84,6 +83,7 @@
 				<element value="widgetizer" />
 			</property>
 		</properties>
+		<exclude-pattern>*/examples/*</exclude-pattern>
 	</rule>
 
 	<!-- Loads the PHP Compatibility ruleset. -->
