@@ -771,8 +771,6 @@ abstract class Widgetizer {
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		$this->render_field_refs( $args );
-
 		$this->render_field_close( $args );
 	}
 
@@ -825,8 +823,6 @@ abstract class Widgetizer {
 		$this->render_field_description( $args );
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-		$this->render_field_presets( $args );
 
 		$this->render_field_close( $args );
 	}
