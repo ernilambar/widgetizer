@@ -205,7 +205,7 @@ abstract class Widgetizer {
 						$sanitized_value = sanitize_textarea_field( wp_unslash( $raw_value ) );
 						break;
 
-					case 'multicheck':
+					case 'multicheckbox':
 						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : [];
 						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
 						break;
@@ -603,7 +603,7 @@ abstract class Widgetizer {
 	}
 
 	/**
-	 * Render multicheck.
+	 * Render multicheckbox.
 	 *
 	 * @since 1.0.0
 	 *
@@ -611,7 +611,7 @@ abstract class Widgetizer {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
-	private function callback_multicheck( array $args ) {
+	private function callback_multicheckbox( array $args ) {
 		$field_key = $args['id'] ?? '';
 
 		if ( empty( $field_key ) ) {

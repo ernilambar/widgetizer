@@ -26,7 +26,7 @@ WordPress admin dashboard widget helper.
 - radio
 - checkbox
 - toggle
-- multicheck
+- multicheckbox
 - buttonset
 - sortable
 
