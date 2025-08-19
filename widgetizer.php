@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'WIDGETIZER_VERSION' ) ) {
-	define( 'WIDGETIZER_VERSION', '1.0.0' );
+	define( 'WIDGETIZER_VERSION', '1.0.1' );
 }
 
 if ( ! defined( 'WIDGETIZER_DIR' ) ) {
