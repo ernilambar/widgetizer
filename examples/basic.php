@@ -115,11 +115,11 @@ class Basic_Widgetizer_Example extends Widgetizer {
 				],
 			],
 
-			// Multicheck field example.
-			'multicheck_field' => [
-				'id'      => 'multicheck_field',
-				'type'    => 'multicheck',
-				'title'   => esc_html__( 'Multicheck Field:' ),
+				// Multicheckbox field example.
+	'multicheckbox_field' => [
+		'id'      => 'multicheckbox_field',
+		'type'    => 'multicheckbox',
+		'title'   => esc_html__( 'Multicheckbox Field:' ),
 				'default' => [ 'option1', 'option3' ],
 				'choices' => [
 					'option1' => esc_html__( 'Check Option 1' ),

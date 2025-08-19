@@ -200,7 +200,12 @@ abstract class Widgetizer {
 						$sanitized_value = intval( wp_unslash( $raw_value ) );
 						break;
 
-					case 'multicheck':
+					case 'textarea':
+						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : '';
+						$sanitized_value = sanitize_textarea_field( wp_unslash( $raw_value ) );
+						break;
+
+					case 'multicheckbox':
 						$raw_value       = array_key_exists( $field_key, $post_items ) ? $post_items[ $field_key ] : [];
 						$sanitized_value = array_map( 'sanitize_text_field', $raw_value );
 						break;
@@ -331,7 +336,7 @@ abstract class Widgetizer {
 	 * @return string Field for id.
 	 */
 	private function get_field_for_id( array $args ): string {
-		return in_array( $args['type'], [ 'code', 'email', 'image', 'number', 'select', 'text', 'textarea', 'url' ], true ) ? $this->get_field_id( $args['id'] ) : '';
+		return in_array( $args['type'], [ 'email', 'number', 'password', 'select', 'text', 'textarea', 'url' ], true ) ? $this->get_field_id( $args['id'] ) : '';
 	}
 
 	/**
@@ -598,7 +603,7 @@ abstract class Widgetizer {
 	}
 
 	/**
-	 * Render radio image.
+	 * Render multicheckbox.
 	 *
 	 * @since 1.0.0
 	 *
@@ -606,54 +611,7 @@ abstract class Widgetizer {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
-	private function callback_radioimage( array $args ) {
-		$field_key = $args['id'] ?? '';
-
-		if ( empty( $field_key ) ) {
-			return;
-		}
-
-		$value = $this->get_setting( $field_key );
-
-		$this->render_field_open( $args );
-
-		$this->render_field_label( $args );
-
-		$layout_class = 'layout-' . ( ! empty( $args['layout'] ?? '' ) ? $args['layout'] : 'vertical' );
-
-		echo '<ul class="radio-images ' . esc_attr( $layout_class ) . '">';
-
-		foreach ( $args['choices'] as $choice_key => $choice_url ) {
-			$attr = [
-				'type'  => 'radio',
-				'name'  => $this->get_field_name( $field_key ),
-				'value' => $choice_key,
-			];
-
-			$attributes = $this->render_attr( $attr, [ 'display' => false ] );
-
-			echo '<li>';
-
-			printf( '<label><input %s %s />%s</label>', $attributes, checked( $value, $choice_key, false ), '<img src="' . esc_url( $choice_url ) . '" alt="' . esc_attr( $choice_key ) . '">' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-			echo '</li>';
-		}
-
-		echo '</ul>';
-
-		$this->render_field_close( $args );
-	}
-
-	/**
-	 * Render multicheck.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
-	 */
-	private function callback_multicheck( array $args ) {
+	private function callback_multicheckbox( array $args ) {
 		$field_key = $args['id'] ?? '';
 
 		if ( empty( $field_key ) ) {
@@ -840,6 +798,92 @@ abstract class Widgetizer {
 		if ( array_key_exists( 'side_text', $args ) && ! empty( $args['side_text'] ) ) {
 			$html .= esc_html( ' ' . $args['side_text'] );
 		}
+
+		$this->render_field_open( $args );
+
+		$this->render_field_label( $args );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		$this->render_field_refs( $args );
+
+		$this->render_field_close( $args );
+	}
+
+	/**
+	 * Render URL.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 */
+	private function callback_url( array $args ) {
+		$this->callback_text( $args );
+	}
+
+	/**
+	 * Render email.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 */
+	private function callback_email( array $args ) {
+		$this->callback_text( $args );
+	}
+
+	/**
+	 * Render password.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 */
+	private function callback_password( array $args ) {
+		$this->callback_text( $args );
+	}
+
+	/**
+	 * Render textarea.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+	 */
+	private function callback_textarea( array $args ) {
+		$field_key = $args['id'] ?? '';
+
+		if ( empty( $field_key ) ) {
+			return;
+		}
+
+		$attr = [
+			'name'  => $this->get_field_name( $field_key ),
+			'id'    => $this->get_field_id( $field_key ),
+			'class' => '',
+		];
+
+		// Add rows attribute if specified.
+		if ( array_key_exists( 'rows', $args ) ) {
+			$attr['rows'] = $args['rows'];
+		}
+
+		// Add cols attribute if specified.
+		if ( array_key_exists( 'cols', $args ) ) {
+			$attr['cols'] = $args['cols'];
+		}
+
+		$attributes = $this->render_attr( $attr, [ 'display' => false ] );
+
+		$html = sprintf( '<textarea %s>%s</textarea>', $attributes, esc_textarea( $this->get_setting( $field_key ) ) );
 
 		$this->render_field_open( $args );
 
