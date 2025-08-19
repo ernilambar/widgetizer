@@ -16,17 +16,19 @@ WordPress admin dashboard widget helper.
 
 ## Field Types
 
-- Text
-- Email
-- URL
-- Number
-- Textarea
-- Select
-- Radio
-- Checkbox
-- Toggle
-- Multi-check
-- Button Set
+- text
+- email
+- url
+- password
+- number
+- textarea
+- select
+- radio
+- checkbox
+- toggle
+- multicheck
+- buttonset
+- sortable
 
 ## License
 
