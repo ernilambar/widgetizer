@@ -74,3 +74,8 @@ alwaysApply: true
   8. Use WordPress's hook system for modular and extensible code.
   9. Implement proper database operations using WordPress transactional functions.
   10. Use WordPress's WP_Cron API for scheduling tasks.
+
+  Before Making Code Changes:
+  - If the user asks about naming conventions, design patterns, or architecture decisions, provide recommendations and wait for their choice
+  - Do not write or modify code unless the user explicitly asks you to implement something
+  - Always confirm the user's intent before proceeding with any implementation

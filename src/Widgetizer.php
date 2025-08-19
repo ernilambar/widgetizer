@@ -954,6 +954,9 @@ abstract class Widgetizer {
 			'submitter' => ( isset( $args['presets']['submitter'] ) && true === $args['presets']['submitter'] ) ? true : false,
 		];
 
+		// Get display type.
+		$display_type = isset( $args['presets']['display'] ) ? $args['presets']['display'] : 'button';
+
 		$preset_attrs = [
 			'class'       => [ 'widgetizer-field-presets' ],
 			'data-preset' => wp_json_encode( $preset_data ),
@@ -963,7 +966,8 @@ abstract class Widgetizer {
 		echo '<ul>';
 
 		foreach ( $args['presets']['choices'] as $val => $label ) {
-			echo '<li><a href="#" class="button" data-val="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</a></li>';
+			$link_class = ( 'button' === $display_type ) ? 'button' : '';
+			echo '<li><a href="#" class="' . esc_attr( $link_class ) . '" data-val="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</a></li>';
 		}
 
 		echo '</ul>';
