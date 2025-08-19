@@ -620,10 +620,16 @@ abstract class Widgetizer {
 
 		$field_value = (array) $this->get_setting( $field_key );
 
+		$layout_class = 'layout-vertical';
+
+		if ( isset( $args['layout'] ) && ! empty( $args['layout'] ) ) {
+			$layout_class = 'layout-' . $args['layout'];
+		}
+
 		$html = '';
 
 		if ( ! empty( $args['choices'] ) ) {
-			$html .= '<ul>';
+			$html .= '<ul class="checkbox-list ' . esc_attr( $layout_class ) . '">';
 
 			foreach ( $args['choices'] as $key => $label ) {
 				$attr = [

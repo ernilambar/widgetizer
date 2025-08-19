@@ -86,6 +86,16 @@ body #dashboard-widgets .postbox form .submit {
 			margin-right: 10px;
 		}
 	}
+
+	.layout-horizontal {
+		border: 1px red solid;
+	}
+}
+
+.widgetizer-field-type-multicheckbox {
+	.layout-horizontal {
+		border: 1px red solid;
+	}
 }
 
 .widgetizer-field-refs {
