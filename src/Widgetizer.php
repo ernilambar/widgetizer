@@ -401,10 +401,6 @@ abstract class Widgetizer {
 			$field_attrs['class'][] = 'widgetizer-field-mode-submitter';
 		}
 
-		if ( ( isset( $args['inline'] ) && true === $args['inline'] ) ) {
-			$field_attrs['class'][] = 'widgetizer-field-layout-inline';
-		}
-
 		echo '<div ' . $this->render_attr( $field_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<div class="widgetizer-field-inner">';
 	}
@@ -447,15 +443,27 @@ abstract class Widgetizer {
 
 		$html = sprintf( '<input %s />', $attributes );
 
+		// Check if presets should be displayed inline.
+		$is_inline_presets = ( isset( $args['presets']['inline'] ) && true === $args['presets']['inline'] );
+
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
 
 		$this->render_field_description( $args );
 
+		if ( $is_inline_presets ) {
+			echo '<div class="widgetizer-field-input-group">';
+		}
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		$this->render_field_presets( $args );
+		if ( $is_inline_presets ) {
+			$this->render_field_presets( $args );
+			echo '</div>';
+		} else {
+			$this->render_field_presets( $args );
+		}
 
 		$this->render_field_close( $args );
 	}
@@ -961,10 +969,18 @@ abstract class Widgetizer {
 			$display_type = 'link';
 		}
 
+		// Check if presets should be displayed inline.
+		$is_inline = ( isset( $args['presets']['inline'] ) && true === $args['presets']['inline'] );
+
 		$preset_attrs = [
 			'class'       => [ 'widgetizer-field-presets' ],
 			'data-preset' => wp_json_encode( $preset_data ),
 		];
+
+		// Add inline class if needed.
+		if ( $is_inline ) {
+			$preset_attrs['class'][] = 'widgetizer-field-presets-inline';
+		}
 
 		echo '<div ' . $this->render_attr( $preset_attrs, [ 'display' => false ] ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<ul>';
