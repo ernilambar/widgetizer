@@ -23,6 +23,7 @@ class Basic_Widgetizer_Example extends Widgetizer {
 				'id'          => 'text_field',
 				'type'        => 'text',
 				'title'       => esc_html__( 'Text Field:' ),
+				'description' => esc_html__( 'Enter your name here. This will be displayed publicly.' ),
 				'default'     => 'Default text value',
 				'placeholder' => esc_html__( 'Enter text here' ),
 			],
@@ -65,17 +66,19 @@ class Basic_Widgetizer_Example extends Widgetizer {
 				'id'          => 'textarea_field',
 				'type'        => 'textarea',
 				'title'       => esc_html__( 'Textarea Field:' ),
+				'description' => esc_html__( 'Provide a detailed description. You can use multiple lines for better formatting.' ),
 				'default'     => 'Default textarea content.',
 				'placeholder' => esc_html__( 'Enter your content here...' ),
 			],
 
 			// Select field example.
 			'select_field'        => [
-				'id'      => 'select_field',
-				'type'    => 'select',
-				'title'   => esc_html__( 'Select Field:' ),
-				'default' => 'option2',
-				'choices' => [
+				'id'          => 'select_field',
+				'type'        => 'select',
+				'title'       => esc_html__( 'Select Field:' ),
+				'description' => esc_html__( 'Choose the best option for your needs. You can change this later.' ),
+				'default'     => 'option2',
+				'choices'     => [
 					'option1' => esc_html__( 'First Option' ),
 					'option2' => esc_html__( 'Second Option' ),
 					'option3' => esc_html__( 'Third Option' ),
@@ -141,11 +144,12 @@ class Basic_Widgetizer_Example extends Widgetizer {
 
 			// Checkbox field example.
 			'checkbox_field'      => [
-				'id'        => 'checkbox_field',
-				'type'      => 'checkbox',
-				'title'     => esc_html__( 'Checkbox Field:' ),
-				'default'   => true,
-				'side_text' => esc_html__( 'Enable this feature' ),
+				'id'          => 'checkbox_field',
+				'type'        => 'checkbox',
+				'title'       => esc_html__( 'Checkbox Field:' ),
+				'description' => esc_html__( 'Check this box to enable the advanced features for this widget.' ),
+				'default'     => true,
+				'side_text'   => esc_html__( 'Enable this feature' ),
 			],
 
 			// Toggle field example.

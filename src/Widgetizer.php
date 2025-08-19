@@ -451,6 +451,8 @@ abstract class Widgetizer {
 
 		$this->render_field_label( $args );
 
+		$this->render_field_description( $args );
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$this->render_field_refs( $args );
@@ -492,6 +494,8 @@ abstract class Widgetizer {
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
+
+		$this->render_field_description( $args );
 		?>
 			<select name="<?php echo esc_attr( $this->get_field_name( $field_key ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( $field_key ) ); ?>">
 
@@ -527,6 +531,8 @@ abstract class Widgetizer {
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
+
+		$this->render_field_description( $args );
 		?>
 			<div class="buttonset">
 				<?php
@@ -572,6 +578,8 @@ abstract class Widgetizer {
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
+
+		$this->render_field_description( $args );
 
 		$layout_class = 'layout-vertical';
 
@@ -653,6 +661,8 @@ abstract class Widgetizer {
 
 		$this->render_field_label( $args );
 
+		$this->render_field_description( $args );
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$this->render_field_close( $args );
@@ -712,6 +722,8 @@ abstract class Widgetizer {
 
 		$this->render_field_label( $args );
 
+		$this->render_field_description( $args );
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$this->render_field_close( $args );
@@ -763,6 +775,7 @@ abstract class Widgetizer {
 
 		$this->render_field_close( $args );
 	}
+
 	/**
 	 * Render toggle.
 	 *
@@ -808,6 +821,8 @@ abstract class Widgetizer {
 		$this->render_field_open( $args );
 
 		$this->render_field_label( $args );
+
+		$this->render_field_description( $args );
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -895,11 +910,28 @@ abstract class Widgetizer {
 
 		$this->render_field_label( $args );
 
+		$this->render_field_description( $args );
+
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		$this->render_field_refs( $args );
 
 		$this->render_field_close( $args );
+	}
+
+	/**
+	 * Render field description.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $args Field arguments.
+	 */
+	private function render_field_description( array $args ) {
+		if ( ! array_key_exists( 'description', $args ) || empty( $args['description'] ) ) {
+			return;
+		}
+
+		echo '<p class="widgetizer-field-description">' . esc_html( $args['description'] ) . '</p>';
 	}
 
 	/**
