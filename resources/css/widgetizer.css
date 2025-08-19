@@ -74,27 +74,44 @@ body #dashboard-widgets .postbox form .submit {
 		margin: 0 0.25rem 0 0;
 	}
 
-	.layout-horizontal {
-		display: flex;
-	}
-
 	.radio-list {
 		margin: 0;
 		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
 		li {
-			margin-right: 10px;
+			margin: 0;
 		}
 	}
 
-	.layout-horizontal {
-		border: 1px red solid;
+	.radio-list.layout-horizontal {
+		flex-direction: row !important;
+		flex-wrap: wrap;
 	}
 }
 
 .widgetizer-field-type-multicheckbox {
-	.layout-horizontal {
-		border: 1px red solid;
+	input[type="checkbox"] {
+		margin: 0 0.25rem 0 0;
+	}
+
+	.checkbox-list {
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		li {
+			margin: 0;
+		}
+	}
+
+	.checkbox-list.layout-horizontal {
+		flex-direction: row !important;
+		flex-wrap: wrap;
 	}
 }
 
