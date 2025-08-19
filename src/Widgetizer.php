@@ -955,7 +955,11 @@ abstract class Widgetizer {
 		];
 
 		// Get display type.
-		$display_type = isset( $args['presets']['display'] ) ? $args['presets']['display'] : 'button';
+		$display_type = $args['presets']['display'] ?? '';
+
+		if ( ! in_array( $display_type, [ 'button', 'link' ], true ) ) {
+			$display_type = 'link';
+		}
 
 		$preset_attrs = [
 			'class'       => [ 'widgetizer-field-presets' ],

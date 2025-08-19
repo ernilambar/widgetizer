@@ -125,6 +125,7 @@ body #dashboard-widgets .postbox form .submit {
 .widgetizer-field-presets {
 	ul {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 10px;
 		margin: 8px 0 0 0;
 	}
