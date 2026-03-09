@@ -1,3 +1,16 @@
+body {
+	--widgetizer-color-primary: var(--wp-admin-theme-color, #008dd4);
+	--widgetizer-color-primary-hover: var(
+		--wp-admin-theme-color-darker-10,
+		var(--widgetizer-color-primary)
+	);
+	--widgetizer-color-primary-active: var(
+		--wp-admin-theme-color-darker-20,
+		var(--widgetizer-color-primary)
+	);
+	--widgetizer-button-text: var(--wp-admin-buttons-color, #fff);
+}
+
 body #dashboard-widgets .postbox form .submit {
 	margin-top: 20px;
 	display: flex;
@@ -178,7 +191,7 @@ body #dashboard-widgets .postbox form .submit {
 				+ .switch-label {
 					border-color: #7e8993;
 					background: var(--widgetizer-color-primary);
-					color: #fff;
+					color: var(--widgetizer-button-text);
 					z-index: 2;
 				}
 			}
