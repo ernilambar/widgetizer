@@ -1,5 +1,4 @@
 .cursor/ export-ignore
-/resources/ export-ignore
 .editorconfig export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
@@ -9,8 +8,9 @@
 .postcssrc.json export-ignore
 .prettierignore export-ignore
 .prettierrc.mjs export-ignore
-CHANGELOG.md export-ignore
 /examples/ export-ignore
+/resources/ export-ignore
+CHANGELOG.md export-ignore
 LICENSE export-ignore
 package.json export-ignore
 phpmd.xml export-ignore
