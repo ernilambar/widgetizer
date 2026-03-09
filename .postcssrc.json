@@ -2,6 +2,7 @@
 	"plugins": {
 		"postcss-import": true,
 		"postcss-nested": true,
-		"postcss-custom-media": true
+		"postcss-custom-media": true,
+		"autoprefixer": true
 	}
 }
