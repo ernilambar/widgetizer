@@ -32,4 +32,4 @@ WordPress admin dashboard widget helper.
 
 ## License
 
-This project is licensed under the [MIT](https://opensource.org/license/MIT).
+[MIT](LICENSE) © [Nilambar Sharma](https://www.nilambar.net)

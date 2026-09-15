@@ -1,6 +1,8 @@
 <?php
 /**
  * Basic Widgetizer Example
+ *
+ * @package Widgetizer
  */
 
 // Include the Widgetizer class.

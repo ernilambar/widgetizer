@@ -2,39 +2,45 @@
 	"name": "widgetizer",
 	"version": "1.0.2",
 	"description": "WordPress admin dashboard widget helper.",
-	"main_file": "widgetizer.php",
-	"author": "Nilambar Sharma",
-	"license": "MIT",
 	"keywords": [
 		"wordpress",
 		"option"
 	],
 	"homepage": "https://github.com/ernilambar/widgetizer",
+	"bugs": {
+		"url": "https://github.com/ernilambar/widgetizer/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ernilambar/widgetizer"
 	},
-	"bugs": {
-		"url": "https://github.com/ernilambar/widgetizer/issues"
+	"license": "MIT",
+	"author": "Nilambar Sharma",
+	"main": "widgetizer.php",
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite build --watch",
+		"format": "prettier . --write --log-level warn"
 	},
 	"browserslist": "> 1%, last 2 versions, not dead",
+	"prettier": "@wordpress/prettier-config",
 	"dependencies": {
 		"sortablejs": "^1.15.7"
 	},
 	"devDependencies": {
-		"@wordpress/prettier-config": "^4.41.0",
-		"autoprefixer": "^10.4.27",
+		"@wordpress/prettier-config": "^4.55.0",
+		"autoprefixer": "^10.5.5",
 		"browserslist-to-esbuild": "^2.1.1",
-		"postcss": "^8.5.8",
+		"postcss": "^8.5.28",
 		"postcss-custom-media": "^12.0.1",
-		"postcss-import": "^16.1.1",
-		"postcss-nested": "^7.0.2",
-		"prettier": "npm:wp-prettier@^3.0.3",
-		"vite": "^7.3.1"
+		"postcss-import": "^17.0.0",
+		"postcss-nested": "^8.0.1",
+		"prettier": "npm:wp-prettier@3.9.6",
+		"vite": "^8.2.2"
 	},
-	"scripts": {
-		"build": "vite build",
-		"dev": "vite build --watch",
-		"format": "prettier \"**/*.{cjs,css,js,json,mjs,scss}\" --write --log-level warn"
+	"packageManager": "pnpm@12.4.1",
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=12"
 	}
 }
