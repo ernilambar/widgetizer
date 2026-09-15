@@ -13,9 +13,6 @@ namespace Nilambar\Widgetizer;
  * Widgetizer class.
  *
  * @since 1.0.0
- *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 abstract class Widgetizer {
 
@@ -474,8 +471,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_number( array $args ) {
 		$this->callback_text( $args );
@@ -487,8 +482,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_select( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -524,8 +517,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_buttonset( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -571,8 +562,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_radio( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -624,8 +613,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_multicheckbox( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -682,8 +669,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_sortable( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -743,8 +728,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_checkbox( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -788,8 +771,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_toggle( array $args ) {
 		$field_key = $args['id'] ?? '';
@@ -841,8 +822,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_url( array $args ) {
 		$this->callback_text( $args );
@@ -854,8 +833,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_email( array $args ) {
 		$this->callback_text( $args );
@@ -867,8 +844,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_password( array $args ) {
 		$this->callback_text( $args );
@@ -880,8 +855,6 @@ abstract class Widgetizer {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Arguments.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
 	 */
 	private function callback_textarea( array $args ) {
 		$field_key = $args['id'] ?? '';

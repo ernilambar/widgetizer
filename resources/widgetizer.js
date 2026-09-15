@@ -4,7 +4,9 @@ import Sortable from 'sortablejs';
 import { getFieldType, submitSettingsForm } from './js/utils';
 
 const handleFormReset = () => {
-	const submitParagraph = document.querySelector( '.dashboard-widget-control-form .submit' );
+	const submitParagraph = document.querySelector(
+		'.dashboard-widget-control-form .submit'
+	);
 
 	if ( submitParagraph ) {
 		const resetButton = document.createElement( 'input' );
@@ -20,7 +22,9 @@ const handleFormReset = () => {
 		resetButton.addEventListener( 'click', function ( event ) {
 			event.preventDefault();
 
-			const hiddenInput = form.querySelector( 'input[name="submit_type"]' );
+			const hiddenInput = form.querySelector(
+				'input[name="submit_type"]'
+			);
 
 			if ( hiddenInput ) {
 				hiddenInput.value = 'reset';
@@ -37,7 +41,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	// Reset button.
 	handleFormReset();
 
-	const sortableFields = document.querySelectorAll( '.widgetizer-field-type-sortable' );
+	const sortableFields = document.querySelectorAll(
+		'.widgetizer-field-type-sortable'
+	);
 
 	const updateSortableValue = ( field ) => {
 		const hiddenField = field.querySelector( 'input[type="hidden"]' );
@@ -70,12 +76,17 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				listItems.forEach( ( li ) => {
 					const visibilityIcon = li.querySelector( 'i.visibility' );
 					if ( visibilityIcon ) {
-						visibilityIcon.addEventListener( 'click', function ( event ) {
-							event.stopPropagation();
-							this.classList.toggle( 'dashicons-visibility-faint' );
-							li.classList.toggle( 'invisible' );
-							updateSortableValue( sortableField );
-						} );
+						visibilityIcon.addEventListener(
+							'click',
+							function ( event ) {
+								event.stopPropagation();
+								this.classList.toggle(
+									'dashicons-visibility-faint'
+								);
+								li.classList.toggle( 'invisible' );
+								updateSortableValue( sortableField );
+							}
+						);
 					}
 
 					const upIcon = li.querySelector( 'i.up' );
@@ -85,7 +96,10 @@ document.addEventListener( 'DOMContentLoaded', function () {
 							const previousSibling = li.previousElementSibling;
 
 							if ( previousSibling ) {
-								sortableList.insertBefore( li, previousSibling );
+								sortableList.insertBefore(
+									li,
+									previousSibling
+								);
 								updateSortableValue( sortableField );
 							}
 						} );
@@ -109,7 +123,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	}
 
 	// Handle field presets.
-	const presetLinks = document.querySelectorAll( '.widgetizer-field-presets a' );
+	const presetLinks = document.querySelectorAll(
+		'.widgetizer-field-presets a'
+	);
 
 	if ( presetLinks ) {
 		presetLinks.forEach( ( link ) => {
@@ -117,9 +133,13 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				event.preventDefault();
 
 				const fieldContainer = link.closest( '.widgetizer-field' );
-				const presetContainer = link.closest( '.widgetizer-field-presets' );
+				const presetContainer = link.closest(
+					'.widgetizer-field-presets'
+				);
 
-				const presetData = JSON.parse( presetContainer.getAttribute( 'data-preset' ) );
+				const presetData = JSON.parse(
+					presetContainer.getAttribute( 'data-preset' )
+				);
 
 				if ( fieldContainer ) {
 					const inputField = fieldContainer.querySelector( 'input' );
@@ -139,7 +159,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	}
 
 	// Submitter fields.
-	const submitterFields = document.querySelectorAll( '.widgetizer-field-mode-submitter' );
+	const submitterFields = document.querySelectorAll(
+		'.widgetizer-field-mode-submitter'
+	);
 
 	if ( submitterFields ) {
 		const inputTypeFields = [ 'buttonset', 'checkbox', 'radio', 'toggle' ];
@@ -148,12 +170,16 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			const fieldType = getFieldType( submitterField );
 
 			if ( inputTypeFields.includes( fieldType ) ) {
-				const childInputFields = submitterField.querySelectorAll( 'input' );
+				const childInputFields =
+					submitterField.querySelectorAll( 'input' );
 
 				childInputFields.forEach( ( childInputField ) => {
-					childInputField.addEventListener( 'click', function ( event ) {
-						submitSettingsForm( childInputField );
-					} );
+					childInputField.addEventListener(
+						'click',
+						function ( event ) {
+							submitSettingsForm( childInputField );
+						}
+					);
 				} );
 			} else if ( 'select' === fieldType ) {
 				submitterField.addEventListener( 'change', function () {

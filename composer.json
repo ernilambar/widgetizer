@@ -22,11 +22,10 @@
 		"php": ">=7.4"
 	},
 	"require-dev": {
-		"dealerdirect/phpcodesniffer-composer-installer": "^1",
-		"php-parallel-lint/php-parallel-lint": "^1",
-		"phpcompatibility/php-compatibility": "dev-develop#3f79f96be9289a49eb85a4db3e8f5b7d55ba06d2",
-		"phpmd/phpmd": "^2.15",
-		"wp-coding-standards/wpcs": "dev-develop"
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+		"php-parallel-lint/php-parallel-lint": "dev-develop#f8cb90a",
+		"phpcompatibility/php-compatibility": "^10.0",
+		"wp-coding-standards/wpcs": "^3.4"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -53,7 +52,6 @@
 			"@phpcs"
 		],
 		"lint-php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
-		"phpcs": "@php ./vendor/bin/phpcs --report-full --report-summary",
-		"phpmd": "phpmd . text phpmd.xml"
+		"phpcs": "@php ./vendor/bin/phpcs --report-full --report-summary"
 	}
 }
